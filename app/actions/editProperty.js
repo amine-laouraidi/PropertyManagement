@@ -1,12 +1,12 @@
 "use server";
 
-import cloudinary from "@/config/cloudinary";
 import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-async function addProperty(formData) {
+
+async function editProperty(propertyId, formData) {
   await connectDB();
   const sessionUser = await getSessionUser();
 
@@ -14,8 +14,7 @@ async function addProperty(formData) {
     throw new Error("User Id Is required");
   }
   const { userId } = sessionUser;
-  const amentities = formData.getAll("amenities");
-  const images = formData.getAll("images").filter((image) => image.name !== "");
+  const amenities = formData.getAll("amenities");
   const propertyData = {
     owner: userId,
     name: formData.get("name"),
@@ -30,38 +29,23 @@ async function addProperty(formData) {
     beds: formData.get("beds"),
     baths: formData.get("baths"),
     square_feet: formData.get("square_feet"),
-    amenities: amentities,
+    amenities: amenities,
     rates: {
       weekly: formData.get("rates.weekly"),
       monthly: formData.get("rates.monthly"),
+      nightly: formData.get("rates.nightly"),
     },
     seller_info: {
       name: formData.get("seller_info.name"),
       email: formData.get("seller_info.email"),
       phone: formData.get("seller_info.phone"),
     },
-    images,
   };
-
-  const imagesUrls = [];
-  for (const imageFile of images) {
-    const imageBuffer = await imageFile.arrayBuffer();
-    const imageArray = Array.from(new Uint8Array(imageBuffer));
-    const imageData = Buffer.from(imageArray);
-
-    const imageBase64 = imageData.toString("base64");
-
-    const result = await cloudinary.uploader.upload(
-      `data:image/png;base64,${imageBase64}`,{
-        folder:'propertypulse'
-      }
-    );
-    imagesUrls.push(result.secure_url);
-  }
-  propertyData.images = imagesUrls;
-  const newProperty = new Property(propertyData);
-  await newProperty.save();
+  const updatedProperty = await Property.findByIdAndUpdate(
+    propertyId,
+    propertyData,
+  );
   revalidatePath("/", "layout");
-  redirect(`/properties/${newProperty._id}`);
+  redirect(`/properties/${updatedProperty._id}`);
 }
-export default addProperty;
+export default editProperty;

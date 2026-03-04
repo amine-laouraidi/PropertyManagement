@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaLocationDot,
   FaBed,
@@ -7,6 +6,8 @@ import {
   FaCheck,
   FaXmark,
 } from "react-icons/fa6";
+import PropertyMapWrapper from "./PropertyMapWrapper";
+
 
 export default function PropertyDetails({ property }) {
   return (
@@ -92,7 +93,7 @@ export default function PropertyDetails({ property }) {
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <div id="map"></div>
+        <PropertyMapWrapper location={property.location} />
       </div>
     </main>
   );

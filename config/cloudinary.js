@@ -6,7 +6,5 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Temporary - remove after debugging
-console.log('Cloudinary config:', cloudinary.config());
 
 export default cloudinary;
