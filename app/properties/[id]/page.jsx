@@ -55,7 +55,7 @@ export default async function PropertyDetailsPage({ params }) {
                 isBookmarked={isBookmarked}
                 propertyId={property._id}
               />
-              <ShareButtons />
+              <ShareButtons property={property}/>
 
               {/* <!-- Contact Form --> */}
               <PropertyContactForm />
