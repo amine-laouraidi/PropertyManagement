@@ -9,26 +9,30 @@ import {
 } from "react-icons/fa6";
 
 export default function PropertyCard({ property }) {
-    const getRateDisplay = () => {
-        const {rates} = property;
-        if(rates.monthly){
-            return `$${rates.monthly.toLocaleString()}/mo`
-        }else if(rates.weekly){
-            return `$${rates.weekly.toLocaleString()}/wk`
-        }else{
-            return `$${rates.nightly.toLocaleString()}/night`
-        }
+  const getRateDisplay = () => {
+    const { rates } = property;
+    if (rates.monthly) {
+      return `$${rates.monthly.toLocaleString()}/mo`;
+    } else if (rates.weekly) {
+      return `$${rates.weekly.toLocaleString()}/wk`;
+    } else {
+      return `$${rates.nightly.toLocaleString()}/night`;
     }
+  };
   return (
     <div className="rounded-xl shadow-md relative">
-      <Image
-        src={property.images[0]}
-        alt={property.name}
-        width='0'
-        height='0'
-        sizes="100vw"
-        className="w-full h-auto rounded-t-xl"
-      />
+      <Link
+        href={`/properties/${property._id}`}
+      >
+        <Image
+          src={property.images[0]}
+          alt={property.name}
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="w-full h-auto rounded-t-xl"
+        />
+      </Link>
       <div className="p-4">
         <div className="text-left md:text-center lg:text-left mb-6">
           <div className="text-gray-600">{property.type}</div>
