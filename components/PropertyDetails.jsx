@@ -8,91 +8,76 @@ import {
 } from "react-icons/fa6";
 import PropertyMapWrapper from "./PropertyMapWrapper";
 
-
 export default function PropertyDetails({ property }) {
   return (
-    <main>
-      <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
-        <div className="text-gray-500 mb-4">{property.type}</div>
-        <h1 className="text-3xl font-bold mb-4">{property.name}</h1>
-        <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
-          <FaLocationDot className="text-lg text-orange-700 mr-2 mt-1" />
-          <p className="text-orange-700">
-            {property.location.street} {property.location.city},{" "}
+    <main className="space-y-5">
+      {/* Header */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 text-center md:text-left">
+        <span className="inline-block text-xs font-semibold uppercase tracking-wide text-amber-600 bg-amber-50 px-2 py-0.5 rounded mb-2">
+          {property.type}
+        </span>
+        <h1 className="text-3xl font-bold text-stone-800 mb-3">{property.name}</h1>
+        <div className="flex items-center justify-center md:justify-start gap-2 text-orange-700 text-sm">
+          <FaLocationDot />
+          <span>
+            {property.location.street}, {property.location.city},{" "}
             {property.location.state} {property.location.zipcode}
-          </p>
+          </span>
         </div>
 
-        <h3 className="text-lg font-bold my-6 bg-gray-800 text-white p-2">
-          Rates & Options
-        </h3>
-        <div className="flex flex-col md:flex-row justify-around">
-          <div className="flex items-center justify-center mb-4 border-b border-gray-200 md:border-b-0 pb-4 md:pb-0">
-            <div className="text-gray-500 mr-2 font-bold">Nightly</div>
-            <div className="text-2xl font-bold">
-              {property.rates.nightly ? (
-                `$${property.rates.nightly.toLocaleString()}`
-              ) : (
-                <FaXmark className="text-red-700" />
-              )}
-            </div>
-          </div>
-          <div className="flex items-center justify-center mb-4 border-b border-gray-200 md:border-b-0 pb-4 md:pb-0">
-            <div className="text-gray-500 mr-2 font-bold">Weekly</div>
-            <div className="text-2xl font-bold text-blue-500">
-              {property.rates.weekly ? (
-                `$${property.rates.weekly.toLocaleString()}`
-              ) : (
-                <FaXmark className="text-red-700" />
-              )}
-            </div>
-          </div>
-          <div className="flex items-center justify-center mb-4 pb-4 md:pb-0">
-            <div className="text-gray-500 mr-2 font-bold">Monthly</div>
-            <div className="text-2xl font-bold text-blue-500">
-              {property.rates.monthly ? (
-                `$${property.rates.monthly.toLocaleString()}`
-              ) : (
-                <FaXmark className="text-red-700" />
-              )}
-            </div>
+        <div className="mt-6">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-stone-500 mb-4">Rates & Options</h3>
+          <div className="grid grid-cols-3 divide-x divide-stone-100">
+            {["nightly", "weekly", "monthly"].map((period) => (
+              <div key={period} className="flex flex-col items-center py-3 px-2">
+                <span className="text-xs text-stone-500 font-medium capitalize mb-1">{period}</span>
+                <span className="text-xl font-bold text-stone-800">
+                  {property.rates[period] ? (
+                    `$${property.rates[period].toLocaleString()}`
+                  ) : (
+                    <FaXmark className="text-red-400 text-base" />
+                  )}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h3 className="text-lg font-bold mb-6">Description & Details</h3>
-        <div className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9">
-          <p>
-            <FaBed className="inline mr-1" /> {property.beds}
-            <span className="hidden sm:inline"> Beds</span>
-          </p>
-          <p>
-            <FaBath className="inline mr-1" /> {property.baths}
-            <span className="hidden sm:inline"> Baths</span>
-          </p>
-          <p>
-            <FaRulerCombined className="inline mr-1" />
-            {property.square_feet.toLocaleString()}
+      {/* Description */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+        <h3 className="text-lg font-bold text-stone-800 mb-4">Description & Details</h3>
+        <div className="flex justify-center gap-8 text-amber-700 text-sm mb-4">
+          <span className="flex items-center gap-1.5">
+            <FaBed /> {property.beds} <span className="hidden sm:inline">Beds</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <FaBath /> {property.baths} <span className="hidden sm:inline">Baths</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <FaRulerCombined /> {property.square_feet.toLocaleString()}
             <span className="hidden sm:inline"> sqft</span>
-          </p>
+          </span>
         </div>
-        <p className="text-gray-500 mb-4">{property.description}</p>
+        <p className="text-stone-600 leading-relaxed text-sm">{property.description}</p>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h3 className="text-lg font-bold mb-6">Amenities</h3>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 list-none">
+      {/* Amenities */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+        <h3 className="text-lg font-bold text-stone-800 mb-4">Amenities</h3>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           {property.amenities.map((amenity, index) => (
-            <li key={index}>
-              <FaCheck className="inline text-green-600 mr-2 mt-3" />
+            <li key={index} className="flex items-center gap-2 text-sm text-stone-700">
+              <FaCheck className="text-amber-600 flex-shrink-0" />
               {amenity}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+      {/* Map */}
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+        <h3 className="text-lg font-bold text-stone-800 mb-4">Location</h3>
         <PropertyMapWrapper location={property.location} />
       </div>
     </main>

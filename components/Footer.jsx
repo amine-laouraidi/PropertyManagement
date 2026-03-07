@@ -1,28 +1,28 @@
 import Image from "next/image";
 import React from "react";
-import logo  from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.png';
+import Link from "next/link";
+
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-gray-200 py-4 mt-auto">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-        <div className="mb-4 md:mb-0">
-          <Image src={logo} alt="Logo" className="h-8 w-auto" />
-        </div>
-        <div className="flex flex-wrap justify-center md:justify-start mb-4 md:mb-0">
-          <ul className="flex space-x-4">
-            <li>
-              <a href="/properties">Properties</a>
-            </li>
-            <li>
-              <a href="/terms.html">Terms of Service</a>
-            </li>
-          </ul>
-        </div>
+    <footer className="bg-stone-800 text-stone-300 py-6 mt-auto">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-4">
         <div>
-          <p className="text-sm text-gray-500 mt-2 md:mt-0">
-            &copy; 2024 PropertyPulse. All rights reserved.
-          </p>
+          <Image src={logo} alt="Logo" className="h-8 w-auto opacity-90" />
         </div>
+        <ul className="flex space-x-6 text-sm">
+          <li>
+            <Link href="/properties" className="hover:text-amber-400 transition-colors duration-150">Properties</Link>
+          </li>
+          <li>
+            <a  className="hover:text-amber-400 transition-colors duration-150">Terms of Service</a>
+          </li>
+        </ul>
+        <p className="text-sm text-stone-500">
+          &copy; {currentYear} PropertyPulse. All rights reserved.
+        </p>
       </div>
     </footer>
   );

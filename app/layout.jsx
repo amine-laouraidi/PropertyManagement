@@ -14,17 +14,29 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "",
+  title: {
+    default: "PropertyPulse",
+    template: "%s | PropertyPulse",
+  },
+  description:
+    "PropertyPulse is a rental property marketplace to find, list, and manage rental homes, apartments, and more.",
+  keywords: [
+    "rental properties",
+    "apartments for rent",
+    "houses for rent",
+    "property listings",
+    "PropertyPulse",
+  ],
 };
 
 export default function MainLayout({ children }) {
   return (
     <html lang="en" className={poppins.variable}>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased flex flex-col min-h-screen">
         <AuthProvider>
           <GlobalProvider>
             <Navbar />
-            <main>{children}</main>
+            <main className="flex-grow">{children}</main>
             <Footer />
             <ToastContainer />
           </GlobalProvider>
